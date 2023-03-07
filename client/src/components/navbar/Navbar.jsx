@@ -119,6 +119,7 @@ const Navbar = () => {
               AI Services
             </Link>
           </div>
+          <hr />
         </>
       )}
     </div>

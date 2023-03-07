@@ -1,10 +1,53 @@
-import React from 'react'
-import "./Gigs.scss"
+import React, { useState } from "react";
+import "./Gigs.scss";
+import { gigs } from "../../data";
+import GigCard from "../../components/gigCard/GigCard";
 
 const Gigs = () => {
-  return (
-    <div className='gigs'>Gigs</div>
-  )
-}
+  const [open, setOpen] = useState(false);
+  const [sort, setSort] = useState("sales");
 
-export default Gigs
+  const reSort = (type) => {
+    setSort(type);
+    setOpen(false);
+  };
+
+  return (
+    <div className="gigs">
+      <div className="container">
+        <span className="breadcrumbs">Liverr &gt Graphics & Design &lt</span>
+        <h1>AI Artists</h1>
+        <p>Explore the boundaries of art and technology with Liverr is AI artists</p>
+        <div className="menu">
+          <div className="left">
+            <span>Budged</span>
+            <input type="number" placeholder="min" />
+            <input type="number" placeholder="max" />
+            <button>Apply</button>
+          </div>
+          <div className="right">
+            <span className="sortBy">SortBy</span>
+            <span className="sortType">{sort === "sales" ? "Best Selling" : "Newest"}</span>
+            <img src="./img/1200px-Logo_Dai_hoc_Can_Tho.svg.png" alt="" onClick={() => setOpen(!open)} />
+            {open && (
+              <div className="rightMenu">
+                {sort === "sales" ? (
+                  <span onClick={() => reSort("createAt")}>Newest</span>
+                ) : (
+                  <span onClick={() => reSort("sales")}>Best Selling</span>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="cards">
+          {gigs.map((gig) => (
+            <GigCard key={gig.id} item={gig} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Gigs;

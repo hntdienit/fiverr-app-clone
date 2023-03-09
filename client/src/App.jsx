@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
-import "./app.scss"
+import "./app.scss";
 
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
@@ -13,7 +13,7 @@ import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import MyGigs from "./pages/myGigs/MyGigs";
-
+import Login from "./pages/login/Login";
 
 function App() {
   const Layout = () => {
@@ -39,6 +39,10 @@ function App() {
         { path: "/messages", element: <Messages /> },
         { path: "/message/:id", element: <Message /> },
         { path: "/mygigs", element: <MyGigs /> },
+        {
+          path: "/login",
+          element: <Login />,
+        },
       ],
     },
   ]);

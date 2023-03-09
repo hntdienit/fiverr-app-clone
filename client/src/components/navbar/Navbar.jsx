@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import newRequest from "../../utils/newRequest";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import "./Navbar.scss";
 
@@ -22,10 +23,17 @@ const Navbar = () => {
     };
   }, []);
 
-  const currentUser = {
-    id: 1,
-    usename: "thanh dien",
-    isSeller: true,
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await newRequest.post("/auth/logout");
+      localStorage.setItem("currentUser", null);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -57,7 +65,7 @@ const Navbar = () => {
                   src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAIMA6QMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAAAgMEBQEH/8QAMBAAAgIBAwEGBAUFAAAAAAAAAAECAxEEEiExIjJBUWFxExSBkQUjQsHwUnKhseH/xAAZAQEBAQEBAQAAAAAAAAAAAAAAAwECBAX/xAAgEQEBAQACAgIDAQAAAAAAAAAAAQIREgMxIVETMkEi/9oADAMBAAIRAxEAPwD6CAD5L64AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQAHoYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ5auuNzpxLesY9crP8+nmjQThVZY+xGTz5Gycst4ZlfupVka7eWlhxafXy8iiOo1TinPSWbtiyuF2jpz02zm62qvz3TI40vjrqPo8nfSue+WPV3WadSnGnfWoNuW7GMFa1k42RU6ZbbLNtcsrx+vpn2OiqqbOIarTzz4bjyeltik5V7lHlNYa9zLmxvafbJdqPgy2ui5xxxKuG7+eH3Ix1sJTsjFSaj3ZY73t90ac85Q6rk5dQx6/QAAAAYAAAAAAAAAAAAAAAAAAAAAAAXaOCs1NcWvHk2Tm8Mt4nL3bXp4Rnet9kuY1+nmyUFqdV3rI01eEY8HM0t1us10dTOUXB2cwT5UfVHZho7bJylKNddTfCS7US2Zz6R1ePmqZ6LT196x59up5XoU08aanHnOKybfkYw5hKUceKf7GXT6q61yUIuW147cccHVzOfmOZvVnxeVFmghGmUXB1t/qik0Z9HpdTVN/L6iS8lF8P7nST7WdWpcdF+kstnTYkowU5PptM6/R3rL2ptV62CqtlxGyK7Mn6lNkJVycZrDXgW67dTSvjW8N4UW84Iyn8bSae595xw354ONx3iqgASWAAAAAAAAAAAAAAAAAAAAAAAAC/RvF8X6FBZpmo3Rb9jvH7Rzv9alp9E9J+K/GqinprW5Npcwl5N+XJ1q7JTTmuUuMLo/qVVNKXa6YxjzJ7oQszFd5JPH+z1dePTx22rFP8xwa546dTPrLKtIpXtYT5nz7L9y1KcZK2U4J+KS/chOMLYv40YWNtNR3ccdB8uf6zPUq2ezeqku9nr/AMKdTqdBpYtu5Rmunw5Zk/cxWfg19monZ8xCndLdiDlJ8+vBdR+CaSD33uy+Wedzwn9uTiTd/i3+J6rAvmPxjVZqTVcViVk1xFHX1MIwoqrhlQh2V9jSksRqrjGKXSKWEl7Hso11P822Kfryb+PifLO/N9OWDpuELINxcZx9DBfX8Oz0fKI78fWcr48na8KwASUAAAAAAAAAAAAAAAAAAAAAAZxj0eQDT26Vc98FNeJMwae74bxLuM3JppNPhnsxuajx+TFzUsvGMnh4DtMLW/yY/wBzKic32IxXgn1NFe6UN23HPjnoZNRGU59mM3FeOOpbK2FfeT3eJ585H+iX3JbubOLVcZ1LzI90Vc65ScspNY256lWskviKPikJ6qUk1FbfXxM+W+X1Ib3OvXK2M67dqAAmqAAwAAAAAAAAAAAAAAAAAAAAAAnXbOruvjyIA2Wz0yyX22R1cf1pr1RP5mn+v/BgBWebUT/DlueqqXR59kU26ucuI8Lz8TODL5dVs8WYN5fIAJqAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9k="
                   alt="Logo_CTU"
                 />
-                <span>{currentUser?.usename}</span>
+                <span>{currentUser?.username}</span>
                 {open && (
                   <div className="options">
                     {currentUser?.isSeller && (
@@ -76,7 +84,7 @@ const Navbar = () => {
                     <Link className="link" to={"/messages"}>
                       Messages
                     </Link>
-                    <Link className="link" to={"/"}>
+                    <Link className="link" onClick={handleLogout}>
                       LogOut
                     </Link>
                   </div>

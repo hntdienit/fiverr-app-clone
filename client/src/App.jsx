@@ -16,6 +16,8 @@ import Message from "./pages/message/Message";
 import MyGigs from "./pages/myGigs/MyGigs";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import Pay from "./pages/pay/Pay";
+import Success from "./pages/success/Success";
 
 function App() {
   const queryClient = new QueryClient();
@@ -76,14 +78,14 @@ function App() {
           path: "/login",
           element: <Login />,
         },
-        // {
-        //   path: "/pay/:id",
-        //   element: <Pay />,
-        // },
-        // {
-        //   path: "/success",
-        //   element: <Success />,
-        // },
+        {
+          path: "/pay/:id",
+          element: <Pay />,
+        },
+        {
+          path: "/success",
+          element: <Success />,
+        },
       ],
     },
   ]);
